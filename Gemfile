@@ -32,6 +32,9 @@ gem 'faker'
 gem 'font-awesome-sass'
 gem 'font-awesome-rails'
 gem 'friendly_id', '~> 5.1.0'
+gem 'httparty'
+gem 'instagram'
+gem 'nokogiri'
 gem 'simple_form'
 
 # Use Capistrano for deployment
@@ -54,7 +57,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  
+
   gem 'hirb'
   gem 'letter_opener'
   gem 'rails-erd'
