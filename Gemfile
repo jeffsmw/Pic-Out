@@ -32,10 +32,16 @@ gem 'faker'
 gem 'font-awesome-sass'
 gem 'font-awesome-rails'
 gem 'friendly_id', '~> 5.1.0'
-gem 'httparty'
+gem 'fuzzy-string-match'
 gem 'instagram'
 gem 'nokogiri'
 gem 'simple_form'
+
+# RestClient dependencies
+gem 'mime-types'
+gem 'netrc'
+gem 'http-cookie'
+gem 'rest-client'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
