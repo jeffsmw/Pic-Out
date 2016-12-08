@@ -1,34 +1,23 @@
 require 'fuzzystringmatch'
 
 class HomeController < ApplicationController
-
   def index
-
-  # @key = ENV['GOOGLE_MAPS_ACCESS_TOKEN']
-  # @origin = '142 West Hastings'
-  # @destination = '322 W Hastings Street'
-  # str = (Nokogiri::HTML(open("https://www.instagram.com/explore/locations/722341822"))).to_s
-  # a = str.index('nodes')
-  # z = str.index('top_posts')
-  # response = str[a+7..z-5]
-  # render :json => response
-
   end
 
   def show
-    search = params[:search]
+    # search = params[:search]
     lat = params[:lat]
     lng = params[:lng]
 
     ## Get Zomato API for nearby restaurants ##
     zomato_data = ''
     zomato_response = RestClient.post(
-      url = "https://developers.zomato.com/api/v2.1/search?count=20&lat=#{lat}&lon=#{lng}",
-      request = {"data" => zomato_data}.to_json,
-      :content_type => :json, :accept => :json, :'user-key' => ENV['ZOMATO_ACCESS_TOKEN']
+      "https://developers.zomato.com/api/v2.1/search?count=20&lat=#{lat}&lon=#{lng}",
+      { 'data' => zomato_data }.to_json,
+      content_type: :json, accept: :json, 'user-key': ENV['ZOMATO_ACCESS_TOKEN']
     )
     parsed_zomato = ActiveSupport::JSON.decode(zomato_response)
-    
+
     # parsed_response['restaurants'][0]['restaurant']['id']
     ## Get each restaurant's name and coordinates ##
     parsed_zomato['restaurants'].each do |restaurant|
@@ -42,31 +31,30 @@ class HomeController < ApplicationController
   end
 
   ## Get Instagram locations near coordinates  ##
-  def get_instagram_api(name,lat,lng)
-    url = "https://api.instagram.com/v1/locations/search?lat=#{lat}&lng=#{lng}&access_token=#{ ENV['INSTAGRAM_ACCESS_TOKEN']}"
+  def get_instagram_api(name, lat, lng)
+    url = "https://api.instagram.com/v1/locations/search?lat=#{lat}&lng=#{lng}&access_token=#{ENV['INSTAGRAM_ACCESS_TOKEN']}"
     response = RestClient.get(url)
     parsed_response = ActiveSupport::JSON.decode(response)
     # parsed_response['data'][0]['name']
-
 
     # jarow = FuzzyStringMatch::JaroWinkler.create( :native )
     # best_match_pc = jarow.getDistance( name, parsed_response['data'][0]['name'])
     # best_rest = parsed_response['data'][0]['name']
     #
     parsed_response['data'].each do |restaurant|
-      jarow = FuzzyStringMatch::JaroWinkler.create( :native )
-      match = jarow.getDistance( name, restaurant['name'])
-    #   if match > best_match_pc
-    #     best_rest = restaurant['name']
-    #     best_match_pc = match
-    #     p best_rest
-    #     p best_match_pc
-    #   end
+      jarow = FuzzyStringMatch::JaroWinkler.create(:native)
+      match = jarow.getDistance(name, restaurant['name'])
+      # if match > best_match_pc
+      #   best_rest = restaurant['name']
+      #   best_match_pc = match
+      #   p best_rest
+      #   p best_match_pc
+      # end
       if match > 0.75
         puts match
         puts restaurant['name']
         get_instagram_images(restaurant['id'])
-        break
+        next
       end
     end
   end
@@ -79,14 +67,13 @@ class HomeController < ApplicationController
   # render :json => str[a+7..z-5]
   # end
   def get_instagram_images(id)
-    str = (Nokogiri::HTML(open("https://www.instagram.com/explore/locations/#{id}"))).to_s
+    str = Nokogiri::HTML(open("https://www.instagram.com/explore/locations/#{id}")).to_s
     a = str.index('nodes')
     z = str.index('top_posts')
-    response = str[a+7..z-5]
+    response = str[a + 7..z - 5]
     parsed_response = ActiveSupport::JSON.decode(response)
     puts parsed_response[0]['thumbnail_src']
     puts parsed_response[1]['thumbnail_src']
     puts parsed_response[2]['thumbnail_src']
   end
-
 end
