@@ -7,7 +7,8 @@ App.loading = App.cable.subscriptions.create "LoadingChannel",
 
   received: (data) ->
     # alert(data['message'])
-    $('#chat_log').append('<img src="'+data['message']+'" height="100" width="100">')
+    # $('#chat_log').append('<img src="'+data['message']+'" height="100" width="100">')
+    $('#chat_log').append(data['message']+'<br />')
     # console.log(data)
 
 

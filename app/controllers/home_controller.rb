@@ -2,9 +2,6 @@ require 'fuzzystringmatch'
 
 class HomeController < ApplicationController
   def index
-    LoadingChannel.broadcast_to('loading_channel', 'stufff')
-    LoadingChannel.broadcast_to('loading_channel', 'stufff')
-    LoadingChannel.broadcast_to('loading_channel', 'stufff')
   end
 
   def show
@@ -77,9 +74,8 @@ class HomeController < ApplicationController
     z = str.index('top_posts')
     response = str[a + 7..z - 5]
     parsed_response = ActiveSupport::JSON.decode(response)
-    ActionCable.server.broadcast('loading_channel', {message: parsed_response[0]['thumbnail_src']})
-    ActionCable.server.broadcast('loading_channel', {message: parsed_response[1]['thumbnail_src']})
-    ActionCable.server.broadcast('loading_channel', {message: parsed_response[2]['thumbnail_src']})
-
+    ActionCable.server.broadcast('loading_channel', message: parsed_response[0]['thumbnail_src'])
+    ActionCable.server.broadcast('loading_channel', message: parsed_response[1]['thumbnail_src'])
+    ActionCable.server.broadcast('loading_channel', message: parsed_response[2]['thumbnail_src'])
   end
 end
