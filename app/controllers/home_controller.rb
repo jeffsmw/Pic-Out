@@ -9,6 +9,7 @@ class HomeController < ApplicationController
     lat = params[:lat]
     lng = params[:lng]
 
+
     ## Get Zomato API for nearby restaurants ##
     zomato_data = ''
     zomato_response = RestClient.post(
@@ -53,8 +54,9 @@ class HomeController < ApplicationController
       if match > 0.75
         puts match
         puts restaurant['name']
+        # ActionCable.server.broadcast('loading_channel', {message: restaurant['name']})
         get_instagram_images(restaurant['id'])
-        next
+        break
       end
     end
   end
@@ -72,8 +74,8 @@ class HomeController < ApplicationController
     z = str.index('top_posts')
     response = str[a + 7..z - 5]
     parsed_response = ActiveSupport::JSON.decode(response)
-    puts parsed_response[0]['thumbnail_src']
-    puts parsed_response[1]['thumbnail_src']
-    puts parsed_response[2]['thumbnail_src']
+    ActionCable.server.broadcast('loading_channel', message: parsed_response[0]['thumbnail_src'])
+    ActionCable.server.broadcast('loading_channel', message: parsed_response[1]['thumbnail_src'])
+    ActionCable.server.broadcast('loading_channel', message: parsed_response[2]['thumbnail_src'])
   end
 end

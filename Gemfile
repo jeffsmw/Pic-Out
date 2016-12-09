@@ -35,6 +35,7 @@ gem 'fuzzy-string-match'
 gem 'instagram'
 gem 'nokogiri'
 gem 'simple_form'
+gem 'turbolinks'
 
 # RestClient dependencies
 gem 'mime-types'
