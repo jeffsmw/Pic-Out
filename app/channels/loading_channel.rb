@@ -7,6 +7,8 @@ class LoadingChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    ActionCable.server.broadcast 'loading_channel', message: data['message']
+    ActionCable.server.broadcast 'loading_channel', message: data['message'],
+                                                    thumb: data['thumb'],
+                                                    image: data['image']
   end
 end

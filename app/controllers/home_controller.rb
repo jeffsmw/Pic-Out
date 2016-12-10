@@ -4,13 +4,12 @@ class HomeController < ApplicationController
   def index
   end
 
-  def show
+  def create
     # search = params[:search]
     lat = params[:lat]
     lng = params[:lng]
 
-
-    ## Get Zomato API for nearby restaurants ##
+    # ## Get Zomato API for nearby restaurants ##
     zomato_data = ''
     zomato_response = RestClient.post(
       "https://developers.zomato.com/api/v2.1/search?count=20&lat=#{lat}&lon=#{lng}",
@@ -29,6 +28,7 @@ class HomeController < ApplicationController
       get_instagram_api(zm_name, zm_lat, zm_lng)
       puts '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
     end
+    head :no_content
   end
 
   ## Get Instagram locations near coordinates  ##
@@ -54,6 +54,7 @@ class HomeController < ApplicationController
       if match > 0.75
         puts match
         puts restaurant['name']
+        break if restaurant['id'] == '0'
         # ActionCable.server.broadcast('loading_channel', {message: restaurant['name']})
         get_instagram_images(restaurant['id'])
         break
@@ -61,21 +62,20 @@ class HomeController < ApplicationController
     end
   end
 
-  # ## Get Restaurant instagram ##
-  # def get_instagram_images
-  # str = (Nokogiri::HTML(open('https://www.instagram.com/explore/locations/722341822/chatime-richmond/'))).to_s
-  # a = str.index('nodes')
-  # z = str.index('top_posts')
-  # render :json => str[a+7..z-5]
-  # end
   def get_instagram_images(id)
     str = Nokogiri::HTML(open("https://www.instagram.com/explore/locations/#{id}")).to_s
     a = str.index('nodes')
     z = str.index('top_posts')
     response = str[a + 7..z - 5]
     parsed_response = ActiveSupport::JSON.decode(response)
-    ActionCable.server.broadcast('loading_channel', message: parsed_response[0]['thumbnail_src'])
-    ActionCable.server.broadcast('loading_channel', message: parsed_response[1]['thumbnail_src'])
-    ActionCable.server.broadcast('loading_channel', message: parsed_response[2]['thumbnail_src'])
+
+    thumb = parsed_response[0]['thumbnail_src']
+    image = parsed_response[0]['display_src']
+    link = parsed_response[0]['code']
+
+    ActionCable.server.broadcast('loading_channel', message: link,
+                                                    thumb: thumb,
+                                                    image: image)
+    #<<TODO
   end
 end

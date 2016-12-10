@@ -4,23 +4,69 @@
     <title>PicOut</title>
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
-    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application' %>
     <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
   </head>
 
   <body>
-    <nav>
-      <%= link_to 'Home', home_path %> |
-      <% unless user_signed_in? %>
-        <%= link_to 'Sign In', new_session_path %> |
-        <%= link_to 'Sign Up', new_user_path %>
-      <% else %>
-        <%= link_to current_user.first_name, user_path(current_user) %> |
-        <%= link_to 'Sign Out', sessions_path, method: :delete %>
-      <% end %>
+    <div id="lightbox" onClick="closeLightbox()">
+      <div>
+        <img id="lightbox-image" />
+        <div id="image-btn-list">
+          <div id="btn1" class="image-btn">1</div>
+          <div id="btn2" class="image-btn">2</div>
+          <div id="btn3" class="image-btn">3</div>
+          <div id="btn4" class="image-btn">4</div>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsable" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <%= link_to 'Pic Out', home_path, class: 'navbar-brand' %>
+        </div>
+
+        <div class="collapse navbar-collapse" id="collapsable">
+          <%= form_tag search_path, id: 'search', class: 'navbar-form navbar-left', :method => 'post' do %>
+            <div class="location form-group">
+              <%= text_field_tag :search, params[:search], id: 'search-input', class: 'geocomplete form-control', placeholder: 'Enter a location' %>
+              <%= submit_tag "Search", :name => nil, id: 'search-button', class: 'btn btn-primary', onClick: "reenableSearch()" %>
+              <div class="coordinates" style="display: none">
+                <%= text_field_tag :lat, params[:lat] %>
+                <%= text_field_tag :lng, params[:lng] %>
+              </div>
+            </div>
+          <% end %>
+          <ul class="nav navbar-nav navbar-right">
+            <% unless user_signed_in? %>
+              <li><%= link_to 'Sign In', new_session_path %></li>
+              <li><%= link_to 'Sign Up', new_user_path %></li>
+            <% else %>
+              <li><%= link_to current_user.first_name, user_path(current_user) %></li>
+              <li><%= link_to 'Sign Out', sessions_path, method: :delete %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
     </nav>
+
     <%= alert || notice %>
     <%= yield %>
+    <script>
+    $(function(){
+      $(".geocomplete").geocomplete({
+        details: ".coordinates",
+        detailsScope: '.location',
+        types: ["geocode", "establishment"],
+      });
+    });
+    </script>
   </body>
 </html>
