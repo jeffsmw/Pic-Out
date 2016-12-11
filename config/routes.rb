@@ -9,5 +9,6 @@ Rails.application.routes.draw do
   resources :sessions, only: [:destroy, :create, :new] do
     delete :destroy, on: :collection
   end
+  resources :restaurants, only: [:show]
 
 end

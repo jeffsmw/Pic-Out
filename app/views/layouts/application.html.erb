@@ -46,7 +46,7 @@
           <% end %>
           <ul class="nav navbar-nav navbar-right">
             <% unless user_signed_in? %>
-              <li><%= link_to 'Sign In', new_session_path %></li>
+              <li><%= link_to 'Sign In', new_session_path  %></li>
               <li><%= link_to 'Sign Up', new_user_path %></li>
             <% else %>
               <li><%= link_to current_user.first_name, user_path(current_user) %></li>
@@ -57,8 +57,15 @@
       </div>
     </nav>
 
-    <%= alert || notice %>
-    <%= yield %>
+    <% if notice || alert %>
+      <div class="alert alert-<%= notice ? 'success' : 'danger' %> alert-dismissible fade in" role="alert" style="margin:0;">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <%= notice || alert %>
+      </div>
+    <% end %>
+    <div id="main">
+      <%= yield %>
+    </div>
     <script>
     $(function(){
       $(".geocomplete").geocomplete({

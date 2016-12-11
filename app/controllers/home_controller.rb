@@ -5,16 +5,32 @@ class HomeController < ApplicationController
   end
 
   def create
-    # search = params[:search]
+    search = params[:search]
     lat = params[:lat]
     lng = params[:lng]
 
-    # ## Get Zomato API for nearby restaurants ##
+    if Search.find_by(search: search).nil?
+      @search = Search.create(search: search)
+      @search.save
+
+      get_zomato_api(lat, lng)
+
+      head :no_content
+    else
+      @search = Search.find_by(search: search)
+      @results = Result.where(search_id: @search.id)
+      # byebug
+      render :index
+    end
+  end
+
+  ## Get Zomato API for nearby restaurants ##
+  def get_zomato_api(lat, lng)
     zomato_data = ''
     zomato_response = RestClient.post(
-      "https://developers.zomato.com/api/v2.1/search?count=20&lat=#{lat}&lon=#{lng}",
-      { 'data' => zomato_data }.to_json,
-      content_type: :json, accept: :json, 'user-key': ENV['ZOMATO_ACCESS_TOKEN']
+    "https://developers.zomato.com/api/v2.1/search?count=20&lat=#{lat}&lon=#{lng}",
+    { 'data' => zomato_data }.to_json,
+    content_type: :json, accept: :json, 'user-key': ENV['ZOMATO_ACCESS_TOKEN']
     )
     parsed_zomato = ActiveSupport::JSON.decode(zomato_response)
 
@@ -22,14 +38,31 @@ class HomeController < ApplicationController
     ## Get each restaurant's name and coordinates ##
     parsed_zomato['restaurants'].each do |restaurant|
       zm_name = restaurant['restaurant']['name']
+      zm_id = restaurant['restaurant']['R']['res_id']
       zm_lat = restaurant['restaurant']['location']['latitude']
       zm_lng = restaurant['restaurant']['location']['longitude']
-      puts zm_name
-      get_instagram_api(zm_name, zm_lat, zm_lng)
+      if Restaurant.find_by(zm_id: zm_id).nil?
+        zm_url = restaurant['restaurant']['url']
+        zm_cuisine = restaurant['restaurant']['cuisines']
+        zm_price = restaurant['restaurant']['average_cost_for_two']
+        @restaurant = Restaurant.create(zm_id: zm_id,
+                                        name: zm_name,
+                                        url: zm_url,
+                                        cuisine: zm_cuisine,
+                                        price: zm_price,
+                                        latitude: zm_lat,
+                                        longitude: zm_lng
+                                        )
+        @restaurant.save
+      else
+        @restaurant = Restaurant.find_by(zm_id: zm_id)
+      end
+      puts @restaurant.id
       puts '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
+      get_instagram_api(zm_name, zm_lat, zm_lng)
     end
-    head :no_content
   end
+
 
   ## Get Instagram locations near coordinates  ##
   def get_instagram_api(name, lat, lng)
@@ -70,12 +103,13 @@ class HomeController < ApplicationController
     parsed_response = ActiveSupport::JSON.decode(response)
 
     thumb = parsed_response[0]['thumbnail_src']
-    image = parsed_response[0]['display_src']
     link = parsed_response[0]['code']
 
+    r = Result.create(ig_slug: link, image: thumb, search_id: @search.id, restaurant_id: @restaurant.id)
+    r.save
+
     ActionCable.server.broadcast('loading_channel', message: link,
-                                                    thumb: thumb,
-                                                    image: image)
+                                                    thumb: thumb)
     #<<TODO
   end
 end
