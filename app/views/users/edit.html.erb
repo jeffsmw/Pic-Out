@@ -1,12 +1,16 @@
 <h1>Edit Profile</h1>
 <div>
-  <%= simple_form_for @user do |f| %>
-      <%= f.input :first_name %>
-      <%= f.input :last_name %>
-      <%= f.input :email %>
-      <%= f.input :password %>
-      <%= f.input :password_confirmation %>
-
-      <%= f.submit 'Update', method: :update %>
+  <%= form_for @user, class: 'form-group' do |f| %>
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name, class: 'form-control' %>
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name, class: 'form-control' %>
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, class: 'form-control' %>
+      <%= f.submit 'Update', method: :update, class: 'btn btn-primary' %>
   <% end %>
 </div>

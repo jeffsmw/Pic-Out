@@ -2,7 +2,7 @@ App.loading = App.cable.subscriptions.create("LoadingChannel", {
   connected: function() {},
   disconnected: function() {},
   received: function(data) {
-    return $('#search-results').append(
+    return $('#channel').append(
       // '<a href="https://www.instagram.com/p/'+ data['message']+
       // '"><img src="'+data['thumb']+
       // '" height="100" width="100"/></a>'
