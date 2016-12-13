@@ -10,14 +10,14 @@
   </head>
 
   <body>
-    <div id="lightbox" onClick="closeLightbox()">
+    <div id="lightbox" onclick="lightbox()">
       <div>
         <img id="lightbox-image" />
-        <div id="image-btn-list">
-          <div id="btn1" class="image-btn">1</div>
-          <div id="btn2" class="image-btn">2</div>
-          <div id="btn3" class="image-btn">3</div>
-          <div id="btn4" class="image-btn">4</div>
+        <div id="lightbox-buttons">
+          <a id="btn1" class="image-btn" data-remote="true"></a>
+          <a id="btn2" class="image-btn" target="_blank"></a>
+          <a id="btn3" class="image-btn"></a>
+          <a id="btn4" class="image-btn"></a>
         </div>
       </div>
     </div>
@@ -34,10 +34,10 @@
         </div>
 
         <div class="collapse navbar-collapse" id="collapsable">
-          <%= form_tag search_path, id: 'search', class: 'navbar-form navbar-left', :method => 'post' do %>
+          <%= form_tag search_path, id: 'search', class: 'navbar-form navbar-left', :method => 'post', remote: true do %>
             <div class="location form-group">
               <%= text_field_tag :search, params[:search], id: 'search-input', class: 'geocomplete form-control', placeholder: 'Enter a location' %>
-              <%= submit_tag "Search", :name => nil, id: 'search-button', class: 'btn btn-primary', onClick: "reenableSearch()" %>
+              <%= submit_tag "Search", :name => nil, id: 'search-button', class: 'btn btn-primary'%>
               <div class="coordinates" style="display: none">
                 <%= text_field_tag :lat, params[:lat] %>
                 <%= text_field_tag :lng, params[:lng] %>
@@ -46,10 +46,10 @@
           <% end %>
           <ul class="nav navbar-nav navbar-right">
             <% unless user_signed_in? %>
-              <li><%= link_to 'Sign In', new_session_path  %></li>
-              <li><%= link_to 'Sign Up', new_user_path %></li>
+              <li><%= link_to 'Sign In', new_session_path, remote: true %></li>
+              <li><%= link_to 'Sign Up', new_user_path, remote: true %></li>
             <% else %>
-              <li><%= link_to current_user.first_name, user_path(current_user) %></li>
+              <li><%= link_to current_user.first_name, user_path(current_user), remote: true %></li>
               <li><%= link_to 'Sign Out', sessions_path, method: :delete %></li>
             <% end %>
           </ul>

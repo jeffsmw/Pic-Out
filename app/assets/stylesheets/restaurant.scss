@@ -1,0 +1,30 @@
+#restaurant-container {
+  position: fixed;
+  width: 100%;
+  top: 50px;
+  bottom: 0;
+
+  #restaurant-info {
+    position: fixed;
+    width: 40%;
+    height: 100%;
+    border: solid 1px lightgrey;
+    word-wrap: break-word;
+    padding: 10px;
+    overflow-y: auto;
+  }
+  #restaurant-map {
+    position: fixed;
+    width: 60%;
+    height: 100%;
+    right: 0;
+    overflow-y: auto;
+  }
+}
+
+img.rest-image {
+  vertical-align: bottom;
+  float:left;
+  /*min-width:360px;*/
+  width: 33.33%;
+}
