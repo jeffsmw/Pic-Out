@@ -2,6 +2,10 @@ class UsersController < ApplicationController
   # before_action :authenticate_user, only: [:index]
   def new
     @user = User.new
+    respond_to do |format|
+      format.js { render :new }
+      format.html {render :new }
+    end
   end
 
   def create
@@ -22,10 +26,18 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
+    respond_to do |format|
+      format.js { render :show }
+      format.html { render :show }
+    end
   end
 
   def edit
     @user = current_user
+    respond_to do |format|
+      format.js { render :edit }
+      format.html { render :edit }
+    end
   end
 
   def update
@@ -35,11 +47,17 @@ class UsersController < ApplicationController
                                                :email,
                                                :password,
                                                :password_confirmation)
-    if @user.update user_params
-      redirect_to user_path(@user), notice: 'Your profile has been updated'
-    else
-      flash.now[:alert] = 'Your profile was not updated. Fix these errors'
-      render :edit
+
+    @user.update user_params
+    respond_to do |format|
+      format.js { render :show }
+      format.html { render :show }
     end
+    # if @user.update user_params
+    #   redirect_to user_path(@user), notice: 'Your profile has been updated'
+    # else
+    #   flash.now[:alert] = 'Your profile was not updated. Fix these errors'
+    #   render :edit
+    # end
   end
 end

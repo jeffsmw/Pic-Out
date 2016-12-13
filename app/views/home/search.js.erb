@@ -1,0 +1,5 @@
+$('.alert').fadeOut();
+$('#main').fadeOut(400, function(){
+  $(this).html('<%= j render 'show' %>');
+  $(this).fadeIn();
+});

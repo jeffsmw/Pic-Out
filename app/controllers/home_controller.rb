@@ -1,4 +1,4 @@
-require 'fuzzystringmatch'
+  require 'fuzzystringmatch'
 
 class HomeController < ApplicationController
   def index
@@ -15,12 +15,16 @@ class HomeController < ApplicationController
 
       get_zomato_api(lat, lng)
 
-      head :no_content
+      # head :no_content
     else
       @search = Search.find_by(search: search)
-      @results = Result.where(search_id: @search.id)
+      @results = Result.where(search_id: @search.id).order("RANDOM()").limit(60)
       # byebug
-      render :index
+      respond_to do |format|
+        format.js { render :search }
+        format.html { render :index}
+      end
+      # render :index
     end
   end
 
@@ -45,11 +49,13 @@ class HomeController < ApplicationController
         zm_url = restaurant['restaurant']['url']
         zm_cuisine = restaurant['restaurant']['cuisines']
         zm_price = restaurant['restaurant']['average_cost_for_two']
+        zm_address = restaurant['restaurant']['location']['address']
         @restaurant = Restaurant.create(zm_id: zm_id,
                                         name: zm_name,
                                         url: zm_url,
                                         cuisine: zm_cuisine,
                                         price: zm_price,
+                                        address: zm_address,
                                         latitude: zm_lat,
                                         longitude: zm_lng
                                         )
@@ -90,6 +96,7 @@ class HomeController < ApplicationController
         break if restaurant['id'] == '0'
         # ActionCable.server.broadcast('loading_channel', {message: restaurant['name']})
         get_instagram_images(restaurant['id'])
+        add_instagram_to_restaurant(restaurant['id'])
         break
       end
     end
@@ -102,14 +109,26 @@ class HomeController < ApplicationController
     response = str[a + 7..z - 5]
     parsed_response = ActiveSupport::JSON.decode(response)
 
-    thumb = parsed_response[0]['thumbnail_src']
-    link = parsed_response[0]['code']
+    i = 0
+    while i < parsed_response.count do
+      thumb = parsed_response[i]['thumbnail_src']
+      link = parsed_response[i]['code']
 
-    r = Result.create(ig_slug: link, image: thumb, search_id: @search.id, restaurant_id: @restaurant.id)
-    r.save
+      r = Result.create(ig_slug: link, image: thumb, search_id: @search.id, restaurant_id: @restaurant.id)
+      r.save
 
-    ActionCable.server.broadcast('loading_channel', message: link,
-                                                    thumb: thumb)
+      ActionCable.server.broadcast('loading_channel', message: link,
+                                                      thumb: thumb)
+      i = i + 1
+    end
     #<<TODO
+  end
+
+  def add_instagram_to_restaurant(igid)
+    r = Restaurant.find_by(id: @restaurant.id)
+    if r.ig_id.nil?
+      r.ig_id = igid
+      r.save
+    end
   end
 end

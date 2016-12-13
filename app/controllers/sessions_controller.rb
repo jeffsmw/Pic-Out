@@ -1,4 +1,11 @@
 class SessionsController < ApplicationController
+  def new
+    respond_to do |format|
+      format.js   { render :new }
+      format.html { render :new }
+    end
+  end
+
   def create
     user = User.find_by_email params[:email].downcase
     if user && user.authenticate(params[:password])
