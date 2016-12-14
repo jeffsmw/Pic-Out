@@ -44,6 +44,7 @@
               </div>
             </div>
           <% end %>
+          <div class="btn btn-primary" onclick="searchByLocation()">Test</div>
           <ul class="nav navbar-nav navbar-right">
             <% unless user_signed_in? %>
               <li><%= link_to 'Sign In', new_session_path, remote: true %></li>
@@ -74,6 +75,26 @@
         types: ["geocode", "establishment"],
       });
     });
+    </script>
+    <script>
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
+
+      function searchByLocation() {
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            console.log(pos['lat']);
+            console.log(pos['lng']);
+          });
+        }
+      }
     </script>
   </body>
 </html>

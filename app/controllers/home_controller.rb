@@ -1,4 +1,4 @@
-  require 'fuzzystringmatch'
+require 'fuzzystringmatch'
 
 class HomeController < ApplicationController
   def index

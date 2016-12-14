@@ -7,6 +7,7 @@
 <script>
   $('.search-image').on('click', function(){
     $('#lightbox-image').attr('src', this.src);
+    $('#btn1').show();
     $('#btn1').attr('href', ('/restaurants/' + this.dataset.link));
     $('#btn2').attr('href', ('https://www.instagram.com/p/' + this.dataset.slug));
     $('#lightbox').fadeIn(200);

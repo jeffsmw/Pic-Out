@@ -12,6 +12,7 @@ class RestaurantsController < ApplicationController
     end
   end
 
+  # map directions
   def create
     @origin = params[:origin].gsub!(', ',',').gsub(/\s/,'+').gsub('&','%26')
     @final = params[:addr].gsub!(', ',',').gsub(/\s/,'+')
@@ -19,6 +20,13 @@ class RestaurantsController < ApplicationController
     respond_to do |format|
       format.js { render :new }
       format.html { render :new }
+    end
+  end
+
+  def index
+    respond_to do |format|
+      format.js { render :index }
+      format.html { render :index }
     end
   end
 end

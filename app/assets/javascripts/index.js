@@ -20,6 +20,8 @@ $(function(){
   //
 
   $('.image-btn').on('click'), function(e) {
-    e.preventDefault();
+    // e.preventDefault();
   }
+
+  
 })
