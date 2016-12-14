@@ -1,4 +1,20 @@
 <h1>User Profile</h1>
+
+<h2>Friends</h2>
+<ul>
+  <% for friendship in @user.friendships %>
+    <li><%= friendship.friend.email %></li>
+    (<%= link_to "remove", friendship, method: :delete %>)
+  <% end %>
+</ul>
+
+<h2>Added by</h2>
+<ul>
+  <% for user in @user.inverse_friends %>
+    <li><%= user.email %></li>
+  <% end %>
+</ul>
+<hr />
 <div><%= @user.first_name %></div>
 <div><%= @user.last_name %></div>
 <div><%= @user.email %></div>
