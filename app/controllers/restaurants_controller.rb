@@ -2,7 +2,7 @@ class RestaurantsController < ApplicationController
   def show
     id = params[:id]
     @restaurant = Restaurant.find_by(id: id)
-    @results = Result.where(restaurant_id: id)
+    @results = Result.where(restaurant_id: id).limit(12)
     @origin = @restaurant.address
     @final = @restaurant.address
     @key = ENV['GOOGLE_MAPS_ACCESS_TOKEN']

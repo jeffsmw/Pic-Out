@@ -1,1 +1,7 @@
 $('#restaurant-map').html('<%= j render 'map' %>');
+$('#return-image-btn').fadeIn(200);
+
+var returnImages = function() {
+  $('#restaurant-map').html(saveRestaurant);
+  $('#return-image-btn').fadeOut(200);
+}

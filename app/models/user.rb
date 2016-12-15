@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
 
+  has_many :invitations
+  has_many :events, through: :invitations
   has_many :friendships
   has_many :friends, through: :friendships
   has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
@@ -15,6 +17,12 @@ class User < ApplicationRecord
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },
                     format: VALID_EMAIL_REGEX
+
+
+  def full_name
+    "#{first_name} #{last_name}".strip.squeeze(' ').titleize
+  end
+
 
   private_class_method
 

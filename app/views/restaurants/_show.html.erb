@@ -1,20 +1,24 @@
 <div id="restaurant-container">
   <div id="restaurant-info">
     <div>
-      <%= link_to 'Return to Search', restaurants_path, method: 'get', remote: true %>
+      <%= link_to 'Return to Search', restaurants_path, id: 'return-search', method: 'get', remote: true %>
       <!-- <a id="return-search" data-remote="true">Return to Results</a> -->
     </div>
     <h1><%= @restaurant.name %></h1>
-    <div id="rest-cuisine"><%= @restaurant.cuisine %></div>
+    <div id="rest-cuisine"><h5><%= @restaurant.cuisine %></h5></div>
 
-    <div><%= @restaurant.zm_id %></div>
-    <div><%= @restaurant.url %></div>
-    <div><%= @restaurant.price %></div>
-    <div><%= @restaurant.latitude %></div>
-    <div><%= @restaurant.longitude %></div>
-    <div><%= @restaurant.ig_id %></div>
-    <div><%= @restaurant.address %></div>
+    <div><h4><i class="fa fa-map-marker" aria-hidden="true"></i> <%= @restaurant.address %></h4></div>
+    <div><%# @restaurant.zm_id %></div>
+    <div id="rest-price"><h4><i class="fa fa-usd" aria-hidden="true"></i> <%= @restaurant.price %></h4>
+      &nbsp;&nbsp;<h6><em>Average cost for 2</em></h6>
+    </div>
+    <div><h4><i class="fa fa-external-link" aria-hidden="true"></i> More info on <a href="<%= @restaurant.url %>" target="_blank">Zomato</a></h4></div>
+    <div><%# @restaurant.latitude %></div>
+    <div><%# @restaurant.longitude %></div>
+    <div><%# @restaurant.ig_id %></div>
+    <div id="return-image-btn" class="btn btn-primary col-md-12 col-sm-12 col-xs-12" onclick="returnImages()">View Images</div>
 
+    <hr>
     <h3>Get Directions</h3>
     <div>Enter your starting address:</div>
     <%= form_tag restaurants_path, :method => 'post', id: 'origin', remote: true do %>
@@ -28,7 +32,7 @@
           <option value="transit">Transit</option>
           <option value="driving">Driving</option>
         </select>
-        <%= submit_tag "Get Directions", :name => nil, id: 'origin-button', class: 'btn btn-primary col-md-12'%>
+        <%= submit_tag "Get Directions", :name => nil, id: 'origin-button', class: 'btn btn-primary col-md-12 col-sm-12 col-xs-12'%>
       </div>
     <% end %>
 
@@ -45,4 +49,7 @@ $(function(){
     types: ["geocode", "establishment"],
   });
 });
+</script>
+<script>
+  var saveRestaurant = $('#restaurant-map').html();
 </script>

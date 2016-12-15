@@ -26,6 +26,9 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
+    @events = Event.where(creator: @user.id).order(:created_at)
+    @invites = Invitation.where(user_id: @user.id).order(:created_at)
+
     respond_to do |format|
       format.js { render :show }
       format.html { render :show }
