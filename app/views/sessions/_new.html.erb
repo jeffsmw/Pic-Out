@@ -1,12 +1,21 @@
-<h1>Sign In</h1>
-<%= form_tag sessions_path, class: 'form-group' do %>
-  <div>
-      <%= label_tag :email %>
-      <%= text_field_tag :email, nil, class: 'form-control' %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2 col-md-2 col-lg-3 col-xl-4">
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6 col-xl-4">
+      <h1>Sign In</h1>
+      <%= form_tag sessions_path, class: 'form-group' do %>
+        <div>
+            <%= label_tag :email %>
+            <%= text_field_tag :email, nil, class: 'form-control' %>
+        </div>
+        <div>
+            <%= label_tag :password %>
+            <%= password_field_tag :password, nil, class: 'form-control' %>
+        </div>
+        <%= submit_tag 'Sign In', class: 'btn btn-primary' %>
+      <% end %>
+    </div>
   </div>
-  <div>
-      <%= label_tag :password %>
-      <%= password_field_tag :password, nil, class: 'form-control' %>
-  </div>
-  <%= submit_tag 'Sign In', class: 'btn btn-primary' %>
-<% end %>
+</div>
