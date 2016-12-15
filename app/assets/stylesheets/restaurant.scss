@@ -13,13 +13,36 @@
     padding: 20px;
     overflow-y: auto;
 
+    #return-search:hover {
+      text-decoration: none;
+    }
+
     > h1 {
       margin-bottom: 0;
+    }
+
+    .rest-item {
+      display: inline;
     }
 
     #rest-cuisine {
       font-style: italic;
       color: #888;
+      margin-bottom: 20px;
+    }
+
+    #rest-price {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    #return-image-btn {
+      display: none;
       margin-bottom: 20px;
     }
 
