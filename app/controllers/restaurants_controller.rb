@@ -14,6 +14,7 @@ class RestaurantsController < ApplicationController
 
   # map directions
   def create
+    @mode = params[:mode]
     @origin = params[:origin].gsub!(', ',',').gsub(/\s/,'+').gsub('&','%26')
     @final = params[:addr].gsub!(', ',',').gsub(/\s/,'+')
     @key = ENV['GOOGLE_MAPS_ACCESS_TOKEN']

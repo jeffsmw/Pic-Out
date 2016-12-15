@@ -1,9 +1,11 @@
-require 'fuzzystringmatch'
+require 'home'
 
 class HomeController < ApplicationController
   def index
   end
 
+
+  # search
   def create
     search = params[:search]
     lat = params[:lat]
@@ -19,12 +21,11 @@ class HomeController < ApplicationController
     else
       @search = Search.find_by(search: search)
       @results = Result.where(search_id: @search.id).order("RANDOM()").limit(60)
-      # byebug
       respond_to do |format|
         format.js { render :search }
         format.html { render :index}
       end
-      # render :index
+
     end
   end
 

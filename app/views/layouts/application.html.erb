@@ -14,10 +14,8 @@
       <div>
         <img id="lightbox-image" />
         <div id="lightbox-buttons">
-          <a id="btn1" class="image-btn" data-remote="true"></a>
-          <a id="btn2" class="image-btn" target="_blank"></a>
-          <a id="btn3" class="image-btn"></a>
-          <a id="btn4" class="image-btn"></a>
+          <a id="btn1" class="image-btn" data-remote="true"><i class="fa fa-cutlery fa-3x" aria-hidden="true"></i></a>
+          <a id="btn2" class="image-btn" target="_blank"><i class="fa fa-instagram fa-3x" aria-hidden="true"></i></a>
         </div>
       </div>
     </div>
@@ -44,7 +42,6 @@
               </div>
             </div>
           <% end %>
-          <div class="btn btn-primary" onclick="searchByLocation()">Test</div>
           <ul class="nav navbar-nav navbar-right">
             <% unless user_signed_in? %>
               <li><%= link_to 'Sign In', new_session_path, remote: true %></li>
@@ -67,6 +64,7 @@
     <div id="main">
       <%= yield %>
     </div>
+
     <script>
     $(function(){
       $(".geocomplete").geocomplete({
@@ -77,13 +75,7 @@
     });
     </script>
     <script>
-      // Note: This example requires that you consent to location sharing when
-      // prompted by your browser. If you see the error "The Geolocation service
-      // failed.", it means you probably did not give permission for the browser to
-      // locate you.
-
       function searchByLocation() {
-        // Try HTML5 geolocation.
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {

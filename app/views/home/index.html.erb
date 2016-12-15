@@ -1,8 +1,58 @@
+<div class="bg"></div>
 <div class="jumbotron" id="jumbotron">
-  <h1>JUMB<%= image_tag('logo.png', height: 75, width: 75) %>TRON</h1>
+  <div id="jumbo-header" align="center">
+    <h1>Pic <%= image_tag('ws_logo.png', height: 75, width: 75, id: 'jumbo-logo') %>ut</h1>
+    <div class="btn btn-default" onclick="searchByLocation()"><h4>Find Restaurants Near Me</h4></div>
+  </div>
 </div>
-<h1>Home</h1>
-
-<img src='https://scontent-sea1-1.cdninstagram.com/t51.2885-15/e35/14134822_203552103393406_2031230199_n.jpg?ig_cache_key=MTMzMDE2ODQ4NjEwMTc4MjcwMw%3D%3D.2' height="100" width="100" onClick="lightbox(this.src)" />
-
+<div id="info">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-4 col-md-4 infobox">
+        <div id="box1" align="center">
+          <h3>1</h3>
+          <h1>Pick a Location</h1>
+          <h1><i class="fa fa-map-marker fa-2x" aria-hidden="true"></i></h1>
+          <h6>(Enter a location in the search bar above or use your current location)</h6>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-4 infobox">
+        <div id="box2" align="center">
+          <h3>2</h3>
+          <h1>Look at Pictures</h1>
+          <h1><i class="fa fa-camera fa-2x" aria-hidden="true"></i></h1>
+          <h6>(Find out what restaurant it is by clicking on the picture)</h6>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-4 infobox">
+        <div id="box3" align="center">
+          <h3>3</h3>
+          <h1>Pig Out!</h1>
+          <h1><i class="fa fa-cutlery fa-2x" aria-hidden="true"></i></h1>
+          <h6>(Get directions to the restaurant and enjoy!)</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <%= render 'show' %>
+<div id="footer">
+  <h2>About </h2>
+  <div>Pic out is an application which takes a location and returns nearby restaurants and instagram images taken at each location.</div>
+  <div>This was made with Ruby on Rails, HTML, CSS, Javascript, Jquery, Ajax, Postgres, and more. </div>
+  <div>Github: /jeffsmw</div>
+</div>
+<script>
+  function searchByLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        console.log(pos['lat']);
+        console.log(pos['lng']);
+      });
+    }
+  }
+</script>
