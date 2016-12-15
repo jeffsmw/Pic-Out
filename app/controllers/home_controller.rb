@@ -1,4 +1,4 @@
-require 'home'
+require 'FuzzyStringMatch'
 
 class HomeController < ApplicationController
   def index
@@ -7,9 +7,10 @@ class HomeController < ApplicationController
 
   # search
   def create
-    search = params[:search]
+    # search = params[:search]
     lat = params[:lat]
     lng = params[:lng]
+    search = lat.to_s + lng.to_s
 
     if Search.find_by(search: search).nil?
       @search = Search.create(search: search)

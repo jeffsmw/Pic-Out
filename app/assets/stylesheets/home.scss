@@ -130,6 +130,10 @@ img.search-image:hover {
     #jumbo-logo {
       margin: 0 -8px 10px -8px;
     }
+
+    #jumbo-search-btn {
+      font-size: 24px;
+    }
   }
 }
 
@@ -200,6 +204,7 @@ img.search-image:hover {
 
 #footer {
   min-height: 200px;
+  width: 100vw;
   border-top: solid 2px darkgrey;
   background-color: #211D1E;
   padding: 20px;
