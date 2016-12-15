@@ -1,0 +1,21 @@
+<%= link_to 'Go to Event List', user_path(current_user.id), remote: true %>
+
+<h1>Event: <%= @event.title %></h1>
+<div>Creator: <%= User.find_by(id: @event.creator).full_name %>
+</div>
+<%= @event.time %><br />
+<%= @event.date %><br />
+<%= @event.description %><br />
+<%= @event.min %><br />
+Attending: <%= @attending.nil? ? 0 : @attending%><br />
+
+
+<% unless User.find_by(id: @event.creator) == current_user  %>
+  <% if @invite.first.answer == false  %>
+    <div>Status: Not Attending</div>
+    <%= link_to "Join the Event", event_path(@event.id), method: :patch, remote: true  %>
+  <% else %>
+    <div>Status: Attending</div>
+    <%= link_to "Be  indecisive and change you mind. Shame on you", event_path(@event.id), method: :patch, remote: true  %>
+  <% end %>
+<% end %>

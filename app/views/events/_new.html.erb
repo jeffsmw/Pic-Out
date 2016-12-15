@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2 col-md-2 col-lg-3 col-xl-4">
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6 col-xl-4">
+    <h1>New Event</h1>
+      <%= form_for @event, class: 'form-group', remote: true do |f| %>
+        <%= f.label :title %>
+        <%= f.text_field :title, class: 'form-control' %>
+        <%= f.label :date %>
+        <%= f.date_field :date, class: 'form-control' %>
+        <%= f.label :time %>
+        <%= f.time_field :time, class: 'form-control' %>
+        <%= f.label :address %>
+        <%= f.text_field :address, class: 'form-control' %>
+        <%= f.label :description %>
+        <%= f.text_area :description, class: 'form-control' %>
+        <%= f.label 'Participants Email (seperate with commas)' %>
+        <%= text_area :participants, params[:participants], class: 'form-control' %>
+        <%= f.label 'Minimum number of participants' %>
+        <%= f.text_field :min, class: 'form-control' %>
+        <%= f.submit 'Create Event', class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>

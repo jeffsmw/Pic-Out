@@ -11,4 +11,7 @@ Rails.application.routes.draw do
     delete :destroy, on: :collection
   end
   resources :restaurants, only: [:show, :create, :index]
+  resources :events, only: [:new, :create, :destroy, :show, :update] do
+    delete :destroy, on: :collection
+  end
 end

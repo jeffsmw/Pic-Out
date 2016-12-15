@@ -1,19 +1,23 @@
-<h1>User Profile</h1>
+<h1>User Dashboard</h1>
 
-<h2>Friends</h2>
+<!-- <h2>Friends</h2>
 <ul>
   <% for friendship in @user.friendships %>
-    <li><%= friendship.friend.email %></li>
+    <li><%# friendship.friend.email %></li>
     (<%= link_to "remove", friendship, method: :delete %>)
   <% end %>
-</ul>
+</ul> -->
 
-<h2>Added by</h2>
-<ul>
-  <% for user in @user.inverse_friends %>
-    <li><%= user.email %></li>
-  <% end %>
-</ul>
+<h2>My Events</h2>
+<% @events.each do |e| %>
+  <%= link_to e.title, event_path(e.id), remote: true %><br />
+<% end %>
+
+<h2>Other Events</h2>
+<% @invites.each do |i| %>
+  <%= link_to Event.find(i.event_id).title, event_path(i.event_id), remote: true %><br />
+<% end %>
+
 <hr />
 <div><%= @user.first_name %></div>
 <div><%= @user.last_name %></div>

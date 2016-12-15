@@ -47,6 +47,7 @@
               <li><%= link_to 'Sign In', new_session_path, remote: true %></li>
               <li><%= link_to 'Sign Up', new_user_path, remote: true %></li>
             <% else %>
+              <li><%= link_to 'Create Event', new_event_path, remote: true %></li>
               <li><%= link_to current_user.first_name, user_path(current_user), remote: true %></li>
               <li><%= link_to 'Sign Out', sessions_path, method: :delete %></li>
             <% end %>
