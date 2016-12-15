@@ -74,19 +74,5 @@
       });
     });
     </script>
-    <script>
-      function searchByLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            console.log(pos['lat']);
-            console.log(pos['lng']);
-          });
-        }
-      }
-    </script>
   </body>
 </html>
