@@ -6,7 +6,7 @@
 
     <%= form_tag search_path, id: 'jumbo-search', :method => 'post', remote: true do %>
       <div class="form-group">
-        <%= submit_tag 'Find Restaurants Near Me', id: "jumbo-search-btn", class: 'btn btn-default disabled'%>
+        <%= submit_tag 'Searching for Location', id: "jumbo-search-btn", class: 'btn btn-default disabled'%>
         <div class="coordinates" style="display: none">
           <%= text_field_tag :lat, params[:lat], id: 'myLat' %>
           <%= text_field_tag :lng, params[:lng], id: 'myLng' %>
@@ -62,8 +62,11 @@
         lng: position.coords.longitude
       };
       $('#jumbo-search-btn').removeClass('disabled');
+      $('#jumbo-search-btn').val('Find Restaurants Near Me');
       $('#myLat').val(pos['lat']);
       $('#myLng').val(pos['lng']);
     });
+  } else {
+    $('#jumbo-search-btn').val('Unable to Detect Location');
   }
 </script>

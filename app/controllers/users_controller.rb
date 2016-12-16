@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @events = Event.where(creator: @user.id).order(:created_at)
+    @events = Event.where(creator: @user.id).order(:date)
     @invites = Invitation.where(user_id: @user.id).order(:created_at)
 
     respond_to do |format|
@@ -52,6 +52,8 @@ class UsersController < ApplicationController
                                                :password_confirmation)
 
     @user.update user_params
+    @events = Event.where(creator: @user.id).order(:date)
+    @invites = Invitation.where(user_id: @user.id).order(:created_at)
     respond_to do |format|
       format.js { render :show }
       format.html { render :show }
