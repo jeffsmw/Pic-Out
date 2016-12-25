@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2 col-md-2 col-lg-3 col-xl-4">
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-6 col-xl-4 event-info">
+
+      <%= link_to 'Go to Event List', user_path(current_user.id), remote: true %>
+
+      <h1><%= @event.title %></h1>
+      <div>
+        <strong>Creator:</strong> <%= User.find_by(id: @event.creator).full_name %>
+      </div>
+      <div>
+        <strong>Date:</strong> <%= @event.date %>
+      </div>
+      <div>
+        <strong>Time:</strong> <%= @event.time %>
+      </div>
+      <div>
+        <strong>Description:</strong> <%= @event.description %>
+      </div>
+      <br />
+      <% @event.min %>
+      <div>
+        <strong>Attending:</strong> <%= @attending.nil? ? 1 : @attending + 1%>
+      </div>
+
+      <div>
+        <% unless User.find_by(id: @event.creator) == current_user  %>
+          <% if @invite.first.answer == false  %>
+            <div><strong>Status:</strong> Not Attending</div>
+            <%= link_to "Join the Event", event_path(@event.id), method: :patch, remote: true  %>
+          <% else %>
+            <div><strong>Status:</strong> Attending</div>
+            <%= link_to "Be  indecisive and change you mind. Shame on you", event_path(@event.id), method: :patch, remote: true  %>
+          <% end %>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<% if (@attending+1) >= @event.min %>
+<script>
+  $('.event-info').css({ 'box-shadow' : '0px 0px 10px #00FF00'});
+</script>
+<% else %>
+<script>
+  $('.event-info').css({ 'box-shadow' : '0px 0px 10px #FF0000'});
+</script>
+<% end %>

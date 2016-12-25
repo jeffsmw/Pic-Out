@@ -1,0 +1,15 @@
+<% if @results %>
+  <% @results.each do |r| %><img src='<%= r.image %>' class="search-image" data-slug='<%= r.ig_slug %>' data-link='<%= r.restaurant_id %>'/><% end %>
+<% end %>
+<div id="search-results">
+  <div id="channel"></div>
+</div>
+<script>
+  $('.search-image').on('click', function(){
+    $('#lightbox-image').attr('src', this.src);
+    $('#btn1').show();
+    $('#btn1').attr('href', ('/restaurants/' + this.dataset.link));
+    $('#btn2').attr('href', ('https://www.instagram.com/p/' + this.dataset.slug));
+    $('#lightbox').fadeIn(200);
+  })
+</script>

@@ -1,0 +1,44 @@
+<!-- <h2>Friends</h2>
+<ul>
+  <% for friendship in @user.friendships %>
+    <li><%# friendship.friend.email %></li>
+    (<%= link_to "remove", friendship, method: :delete %>)
+  <% end %>
+</ul> -->
+<div class="container">
+  <div id="user-events" class="row">
+    <div id="user-header" class="row">
+      <h1>User Dashboard</h1>
+      <%= link_to 'Edit Profile', edit_user_path, class: 'btn btn-primary', remote: true %>
+    </div>
+
+    <div class="col-xs-12 col-ms-12 col-md-6 col-lg-6 col-xol-6 events-box">
+      <div>
+        <h2>My Events</h2>
+        <ul>
+        <% @events.each do |e| %>
+          <li>
+            <h4><%= link_to e.title, event_path(e.id), remote: true %>
+            (<%= e.date %>)</h4>
+          </li>
+        <% end %>
+        <ul>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-ms-12 col-md-6 col-lg-6 col-xol-6 events-box">
+      <div>
+        <h2>Other Events</h2>
+        <ul>
+          <% @invites.each do |i| %>
+          <li>
+            <h4><%= link_to Event.find(i.event_id).title, event_path(i.event_id), remote: true %>
+            (<%= Event.find(i.event_id).date %>)</h4>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+</div>

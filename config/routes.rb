@@ -1,3 +1,17 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  mount ActionCable.server => '/cable'
+
+  get '/' => 'home#index', as: :home
+  # get '/search' => 'home#show', as: :search
+  post({'/' => 'home#create', as: :search})
+
+  resources :users
+  resources :friendships, only: [:create, :destroy]
+  resources :sessions, only: [:destroy, :create, :new] do
+    delete :destroy, on: :collection
+  end
+  resources :restaurants, only: [:show, :create, :index]
+  resources :events, only: [:new, :create, :destroy, :show, :update] do
+    delete :destroy, on: :collection
+  end
 end

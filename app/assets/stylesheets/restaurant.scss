@@ -1,0 +1,74 @@
+#restaurant-container {
+  position: fixed;
+  width: 100%;
+  top: 50px;
+  bottom: 0;
+
+  #restaurant-info {
+    position: fixed;
+    width: 40%;
+    height: 100%;
+    border: solid 1px lightgrey;
+    word-wrap: break-word;
+    padding: 20px;
+    overflow-y: auto;
+
+    #return-search:hover {
+      text-decoration: none;
+    }
+
+    > h1 {
+      margin-bottom: 0;
+    }
+
+    .rest-item {
+      display: inline;
+    }
+
+    #rest-cuisine {
+      font-style: italic;
+      color: #888;
+      margin-bottom: 20px;
+    }
+
+    #rest-price {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    #return-image-btn {
+      display: none;
+      margin-bottom: 20px;
+    }
+
+    input {
+      margin-bottom: 10px;
+    }
+
+    select {
+      margin-bottom: 20px;
+    }
+  }
+  #restaurant-map {
+    position: fixed;
+    width: 60%;
+    height: 100%;
+    right: 0;
+    overflow-y: auto;
+  }
+}
+
+img.rest-image {
+  vertical-align: bottom;
+  float:left;
+  /*min-width:360px;*/
+  width: 33.33%;
+}
+img.rest-image:hover {
+  opacity: 0.7;
+}

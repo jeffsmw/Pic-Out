@@ -1,0 +1,7 @@
+<h1>All Users</h1>
+<% @user.each do |user| %>
+  <div>
+    <%= user.email %>
+    <%= link_to "Add Friend", friendships_path(friend_id: user), method: :post %>
+  </div>
+<% end %>
