@@ -10,6 +10,7 @@ AllCops:
     - 'Gemfile.lock'
     - 'Rakefile'
     - 'config/**/*'
+    - 'spec/**/*'
 
 Documentation: # Disabling documentation cop
   Enabled: false

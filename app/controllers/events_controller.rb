@@ -18,9 +18,9 @@ class EventsController < ApplicationController
     @event.creator = current_user.id
 
     if @event.save
-      participants = params[:participants][0].gsub(', ',',')
-      pArray = participants.split(',')
-      send_invites(pArray)
+      participants = params[:participants][0].gsub(', ', ',')
+      p_array = participants.split(',')
+      send_invites(p_array)
     else
       flash.now[:alert] = 'Your event was not created'
       render :new
@@ -46,13 +46,8 @@ class EventsController < ApplicationController
     @event = Event.find_by(id: params[:id])
 
     u = Invitation.where(user_id: current_user.id).find_by(event_id: @event.id)
-    if u.answer == false
-      u.answer = true
-      u.save
-    else
-      u.answer = false
-      u.save
-    end
+    return (u.answer = true) if u.answer == false
+    u.save
 
     @attending = Invitation.where(event_id: @event.id).where(answer: true).count
     @invite = Invitation.where(user: current_user, event: @event.id)
