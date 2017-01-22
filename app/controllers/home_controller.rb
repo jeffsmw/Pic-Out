@@ -77,21 +77,10 @@ class HomeController < ApplicationController
     url = "https://api.instagram.com/v1/locations/search?lat=#{lat}&lng=#{lng}&access_token=#{ENV['INSTAGRAM_ACCESS_TOKEN']}"
     response = RestClient.get(url)
     parsed_response = ActiveSupport::JSON.decode(response)
-    # parsed_response['data'][0]['name']
 
-    # jarow = FuzzyStringMatch::JaroWinkler.create( :native )
-    # best_match_pc = jarow.getDistance( name, parsed_response['data'][0]['name'])
-    # best_rest = parsed_response['data'][0]['name']
-    #
     parsed_response['data'].each do |restaurant|
       jarow = FuzzyStringMatch::JaroWinkler.create(:native)
       match = jarow.getDistance(name, restaurant['name'])
-      # if match > best_match_pc
-      #   best_rest = restaurant['name']
-      #   best_match_pc = match
-      #   p best_rest
-      #   p best_match_pc
-      # end
       if match > 0.75
         puts match
         puts restaurant['name']

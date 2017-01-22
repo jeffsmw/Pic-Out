@@ -18,7 +18,7 @@ class EventsController < ApplicationController
     @event.creator = current_user.id
 
     if @event.save
-      participants = params[:participants][0].gsub(', ',',')
+      participants = params[:participants][0].gsub(', ', ',')
       pArray = participants.split(',')
       send_invites(pArray)
     else
