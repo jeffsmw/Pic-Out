@@ -4,7 +4,6 @@ class HomeController < ApplicationController
   def index
   end
 
-
   # search
   def create
     # search = params[:search]
@@ -21,10 +20,10 @@ class HomeController < ApplicationController
       # head :no_content
     else
       @search = Search.find_by(search: search)
-      @results = Result.where(search_id: @search.id).order("RANDOM()").limit(60)
+      @results = Result.where(search_id: @search.id).order('RANDOM()').limit(60)
       respond_to do |format|
         format.js { render :search }
-        format.html { render :index}
+        format.html { render :index }
       end
 
     end
@@ -34,9 +33,9 @@ class HomeController < ApplicationController
   def get_zomato_api(lat, lng)
     zomato_data = ''
     zomato_response = RestClient.post(
-    "https://developers.zomato.com/api/v2.1/search?count=20&lat=#{lat}&lon=#{lng}",
-    { 'data' => zomato_data }.to_json,
-    content_type: :json, accept: :json, 'user-key': ENV['ZOMATO_ACCESS_TOKEN']
+      "https://developers.zomato.com/api/v2.1/search?count=20&lat=#{lat}&lon=#{lng}",
+      { 'data' => zomato_data }.to_json,
+      content_type: :json, accept: :json, 'user-key': ENV['ZOMATO_ACCESS_TOKEN']
     )
     parsed_zomato = ActiveSupport::JSON.decode(zomato_response)
 
@@ -59,8 +58,7 @@ class HomeController < ApplicationController
                                         price: zm_price,
                                         address: zm_address,
                                         latitude: zm_lat,
-                                        longitude: zm_lng
-                                        )
+                                        longitude: zm_lng)
         @restaurant.save
       else
         @restaurant = Restaurant.find_by(zm_id: zm_id)
@@ -70,7 +68,6 @@ class HomeController < ApplicationController
       get_instagram_api(zm_name, zm_lat, zm_lng)
     end
   end
-
 
   ## Get Instagram locations near coordinates  ##
   def get_instagram_api(name, lat, lng)
@@ -85,7 +82,8 @@ class HomeController < ApplicationController
         puts match
         puts restaurant['name']
         break if restaurant['id'] == '0'
-        # ActionCable.server.broadcast('loading_channel', {message: restaurant['name']})
+        # ActionCable.server.broadcast('loading_channel',
+        #                               {message: restaurant['name']})
         get_instagram_images(restaurant['id'])
         add_instagram_to_restaurant(restaurant['id'])
         break
@@ -110,9 +108,8 @@ class HomeController < ApplicationController
 
       ActionCable.server.broadcast('loading_channel', message: link,
                                                       thumb: thumb)
-      i = i + 1
+      i += 1
     end
-    #<<TODO
   end
 
   def add_instagram_to_restaurant(igid)
