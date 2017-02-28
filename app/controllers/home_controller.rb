@@ -116,6 +116,7 @@ class HomeController < ApplicationController
       thumb = parsed_response[i]['thumbnail_src']
       link = parsed_response[i]['code']
 
+
       r = Result.create(ig_slug: link, image: thumb, search_id: @search.id, restaurant_id: @restaurant.id)
       r.save
 

@@ -12,7 +12,9 @@ App.loading = App.cable.subscriptions.create("LoadingChannel", {
     $('.search-image').on('click', function(){
       $('#lightbox-image').attr('src', this.src);
       $('#btn1').hide();
-      $('#btn2').hide();
+      // $('#btn1').attr('href', ('/restaurants/' + this.dataset.link));
+      $('#btn2').show();
+      $('#btn2').attr('href', ('https://www.instagram.com/p/' + data['message']));
     });
   },
   speak: function(data_request) {
