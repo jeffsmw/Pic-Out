@@ -121,7 +121,8 @@ class HomeController < ApplicationController
       r.save
 
       ActionCable.server.broadcast('loading_channel', message: link,
-                                                      thumb: thumb)
+                                                      thumb: thumb,
+                                                      restaurant: @restaurant.id)
       i += 1
     end
   end
