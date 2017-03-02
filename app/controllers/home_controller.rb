@@ -120,9 +120,10 @@ class HomeController < ApplicationController
       r = Result.create(ig_slug: link, image: thumb, search_id: @search.id, restaurant_id: @restaurant.id)
       r.save
 
-      ActionCable.server.broadcast('loading_channel', message: link,
-                                                      thumb: thumb,
-                                                      restaurant: @restaurant.id)
+      ActionCable.server.broadcast('loading_channel',
+                                    message: link,
+                                    thumb: thumb,
+                                    restaurant: @restaurant.id)
       i += 1
     end
   end
