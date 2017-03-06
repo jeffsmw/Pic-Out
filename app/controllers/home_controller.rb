@@ -2,6 +2,13 @@ require 'FuzzyStringMatch'
 
 class HomeController < ApplicationController
   def index
+    # id = 1001652496
+    # @str = Nokogiri::HTML(open("https://www.instagram.com/explore/locations/#{id}")).to_s
+    # a = @str.index('nodes')
+    # b = @str[a..-1]
+    # z = b.index(']')
+    # @response = b[8..z]
+    # parsed_response = ActiveSupport::JSON.decode(response)
   end
 
   # search
@@ -78,6 +85,7 @@ class HomeController < ApplicationController
     parsed_response['data'].each do |restaurant|
       jarow = FuzzyStringMatch::JaroWinkler.create(:native)
       match = jarow.getDistance(name, restaurant['name'])
+
       if match > 0.75
         puts match
         puts restaurant['name']
@@ -94,8 +102,13 @@ class HomeController < ApplicationController
   def get_instagram_images(id)
     str = Nokogiri::HTML(open("https://www.instagram.com/explore/locations/#{id}")).to_s
     a = str.index('nodes')
-    z = str.index('top_posts')
-    response = str[a + 7..z - 5]
+    # z = str.index('top_posts')
+    # response = str[a + 7..z - 5]
+    # z = str.index('page_info')
+    # response = str[a + 7..z-4]
+    b = str[a..-1]
+    z = b.index(']')
+    response = b[8..z]
     parsed_response = ActiveSupport::JSON.decode(response)
 
     i = 0
@@ -103,11 +116,14 @@ class HomeController < ApplicationController
       thumb = parsed_response[i]['thumbnail_src']
       link = parsed_response[i]['code']
 
+
       r = Result.create(ig_slug: link, image: thumb, search_id: @search.id, restaurant_id: @restaurant.id)
       r.save
 
-      ActionCable.server.broadcast('loading_channel', message: link,
-                                                      thumb: thumb)
+      ActionCable.server.broadcast('loading_channel',
+                                    message: link,
+                                    thumb: thumb,
+                                    restaurant: @restaurant.id)
       i += 1
     end
   end
