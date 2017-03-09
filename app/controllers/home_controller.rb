@@ -2,13 +2,6 @@ require 'FuzzyStringMatch'
 
 class HomeController < ApplicationController
   def index
-    # id = 1001652496
-    # @str = Nokogiri::HTML(open("https://www.instagram.com/explore/locations/#{id}")).to_s
-    # a = @str.index('nodes')
-    # b = @str[a..-1]
-    # z = b.index(']')
-    # @response = b[8..z]
-    # parsed_response = ActiveSupport::JSON.decode(response)
   end
 
   # search
@@ -89,6 +82,7 @@ class HomeController < ApplicationController
       if match > 0.75
         puts match
         puts restaurant['name']
+        puts restaurant['id']
         break if restaurant['id'] == '0'
         # ActionCable.server.broadcast('loading_channel',
         #                               {message: restaurant['name']})
@@ -107,8 +101,8 @@ class HomeController < ApplicationController
     # z = str.index('page_info')
     # response = str[a + 7..z-4]
     b = str[a..-1]
-    z = b.index(']')
-    response = b[8..z]
+    z = b.index('}]')
+    response = b[8..z+1]
     parsed_response = ActiveSupport::JSON.decode(response)
 
     i = 0
