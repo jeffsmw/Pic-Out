@@ -107,8 +107,8 @@ class HomeController < ApplicationController
     # z = str.index('page_info')
     # response = str[a + 7..z-4]
     b = str[a..-1]
-    z = b.index(']')
-    response = b[8..z]
+    z = b.index('}]')
+    response = b[8..z+1]
     parsed_response = ActiveSupport::JSON.decode(response)
 
     i = 0
